@@ -15,11 +15,16 @@ public enum Box { //класс-перечисление
 	CLOSED,
 	FLAGED,
 	BOMBED,
-	NOBOMB;
+	NOBOMB,
+	INFORM; //добавлено мной для реализации знака вопроса
 	
 	public Object image;
 
 	Box getNextNumberBox() {
 		return Box.values()[this.ordinal() + 1]; //берем весь массив и возвращаем следующее значение после текущего
+	}
+
+	int getNumber() { //метод для получения номера на ячейке
+		return this.ordinal(); //используем метод ординал для получения текущего порядкового номера в перечислении
 	}
 }
