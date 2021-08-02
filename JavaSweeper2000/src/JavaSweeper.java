@@ -104,10 +104,10 @@ public class JavaSweeper extends JFrame { //главный класс
 	}
 	
 	private Image getImage (String name) { //метод для нахождения картинок и их получения
-		String filename = "res/img/" + name + ".png"; //задаем название файла
-	//	ImageIcon icon = new ImageIcon (getClass().getResource(filename)); //присваиваем файл с изображением переменной айкон
+		String filename = "img/" + name + ".png"; //задаем название файла
+		ImageIcon icon = new ImageIcon (getClass().getResource(filename)); //присваиваем файл с изображением переменной айкон
 //		ImageIcon icon = new ImageIcon("res/img/bomb.png");
-		ImageIcon icon = new ImageIcon(filename); //создаем изображение, найдя его по имени файла
+	//	ImageIcon icon = new ImageIcon(filename); //создаем изображение, найдя его по имени файла
 		return icon.getImage(); //возвращаем переменную айкон и получаем картинку
 	}
 
