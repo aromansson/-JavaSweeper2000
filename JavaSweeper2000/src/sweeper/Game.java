@@ -1,10 +1,15 @@
 package sweeper;
 
+import javax.management.timer.Timer;
+
 public class Game { //движок игры
 	
+
 	private Bomb bomb; // объявляем переменную бомб 
 	private Flag flag; //объявляем переменную флагов
 	private GameState state; //объявляем переменную состояния игры
+	private int bombsRemain; //??объявляем переменную количества оставшихся бомб
+	private long mSeconds; //??здесь буду хранить секунды
 	
 	public GameState getState() { //геттер состояния игры
 		return state; //возвращает состояние
@@ -20,7 +25,8 @@ public class Game { //движок игры
 	public void start() { //метод для старта игры
 		bomb.start(); //проинициализируем бомбы
 		flag.start(); //флаги тоже проинициализируем
-		state = GameState.PLAYED;
+		state = GameState.PLAYED; //состояние игры - играем
+		mSeconds = System.currentTimeMillis(); //запускаем таймер
 	}
 	
 	public Box getBox(Coord coord) {//метод, который будет говорить, что изобразить в том или ином месте нашего экрана
@@ -36,10 +42,17 @@ public class Game { //движок игры
 		checkWinner(); //проверяем, не выиграли ли мы
 	}
 	
-	private void checkWinner() { //метод для проверки на победу
-		if (state == GameState.PLAYED) { //проверяем, не проиграли ли мы))
-			if (flag.getCountOfClosedBoxes() == bomb.getTotalBombs()) { //если количество закрытых клеток равно количеству бомб
-				state = GameState.WINNER; //то мы победили
+	private void checkWinner() { // метод для проверки на победу
+		if (state == GameState.PLAYED) { // проверяем, не проиграли ли мы))
+			if (flag.getCountOfClosedBoxes() == bomb.getTotalBombs()) { // если количество закрытых клеток равно
+																		// количеству бомб
+				for (Coord coord : Ranges.getAllCoords()) { // перебираем все координаты
+					if (bomb.get(coord) == Box.BOMB) { // если в указанной координате бомба
+						flag.setFlagedToOpenedBombBox(coord); //меняем флажки на бомбочки
+					}
+				} // открываем клетку на закрытой клетке с бомбой
+				mSeconds = (System.currentTimeMillis() - mSeconds)/1000;
+				state = GameState.WINNER; // то мы победили
 			}
 		}
 	}
@@ -92,10 +105,25 @@ public class Game { //движок игры
 		flag.toggleFlagedToBox(coord); //при нажатии устанавливаем/снимаем флажок
 	}
 
-	private boolean gameOver() {
-		if (state == GameState.PLAYED) {
-			return false;
+	private boolean gameOver() { //метод для проверки, проиграли или нет
+		if (state == GameState.PLAYED) { //если состояние игры - играем
+			return false; //то ложно
 		}
-		return true;
+		mSeconds = (System.currentTimeMillis() - mSeconds)/1000;
+		return true; //иначе - правда
+	}
+	
+	public int getCountOfFlags() { //??геттер для количества флагов
+		return flag.countOfFlags; //??возвращаем количество флажков
+	}
+	
+	public int getBombsRemain() { //??геттер количества оставшихся (предположительно) бомб
+		int bombRemains = bomb.getTotalBombs() - flag.countOfFlags;
+		if (bombRemains < 0) bombRemains = 0;
+		return bombRemains;
+	}
+	
+	public long getTime() {
+		return mSeconds;
 	}
 }

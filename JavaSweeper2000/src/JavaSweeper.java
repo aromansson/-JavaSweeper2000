@@ -22,9 +22,9 @@ public class JavaSweeper extends JFrame { //главный класс
 	private Game game; //объявляем переменную Гейм
 	private JPanel panel; //объявляем переменную класса панель
 	private JLabel label; //метка для сообщения о состоянии игры
-	private final int COLS = 9; //сколько у нас будет столбцов
-	private final int ROWS = 9; //сколько будет строк
-	private final int BOMBS = 10; //сколько будет бомб
+	private final int COLS = 5; //сколько у нас будет столбцов
+	private final int ROWS = 5; //сколько будет строк
+	private final int BOMBS = 1; //сколько будет бомб
 	private final int IMAGE_SIZE = 50; //размер картинки
 	
 	public static void main(String[] args) {
@@ -81,9 +81,9 @@ public class JavaSweeper extends JFrame { //главный класс
 	
 	private String getMessage() { //метод, определяющий, какой текст отображать на метке
 		switch (game.getState()){
-			case PLAYED: return "Think twice"; 
-			case BOMBED: return "YOU LOSE! BIG BA-DA-BOOM!";
-			case WINNER: return "CONGRATS!";
+			case PLAYED: return "Смотри не обосрись, осталось " + game.getBombsRemain() + " бомб!"; 
+			case BOMBED: return "ОБОСРАЛСЯ! " + game.getTime();
+			case WINNER: return "Ладно, на этот раз не обосрался! " + game.getTime();
 			default: return null;
 		}
 	}

@@ -3,12 +3,16 @@ package sweeper;
  *флажки, отметки взорванных бомб и тому подобное 
  */
 class Flag {
+	
 	private Matrix flagMap; //объявляем матрицу наших флагов
 	private int countOfClosedBoxes; //объявляем переменную для количества закрытых ячеек
+	//добавляем функционал для подсчета флажков
+	public int countOfFlags; //??объявляем переменную количества флагов
 	
 	void start() { //метод для запуска класса
 		flagMap = new Matrix(Box.CLOSED); //инициализируем нашу матрицу с закрытыми ячейками
 		countOfClosedBoxes = Ranges.getSize().x * Ranges.getSize().y; // получаем размер матрицы
+		countOfFlags = 00; //??инициализируем количество флагов (0)
 	}
 	
 	Box get (Coord coord) { //геттер
@@ -31,13 +35,17 @@ class Flag {
 
 	private void setClosedToBox(Coord coord) { //метод закрытия ячейки
 		flagMap.set(coord, Box.CLOSED); //по переданным координатам закрываем ячейку
+		countOfFlags--; //?? обратно уменьшаем количество флагов
 	}
 	private void setQuestionToBox(Coord coord) { //метод для вопросительного знака
 		flagMap.set(coord, Box.INFORM); //по переданным координатам ставим вопрос
+		
 	}
 
 	private void setFlagedToBox(Coord coord) { //метод для установки флажка
 		flagMap.set(coord, Box.FLAGED); //по переданным координатам ставим флажок на ячейку
+			countOfFlags++; //увеличиваем значение флажков на единицу
+//		}
 	}
 
 	int getCountOfClosedBoxes() { //геттер количества закрытых ячеек
@@ -50,6 +58,12 @@ class Flag {
 
 	void setOpenedToClosedBombBox(Coord coord) { //метод открытия ячеек с бомбами
 		if (flagMap.get(coord) == Box.CLOSED) { //если ячейка закрыта
+			flagMap.set(coord, Box.OPENED); //открываем ее
+		}
+	}
+	
+	void setFlagedToOpenedBombBox(Coord coord) { //метод открытия ячеек с бомбами (при выигрыше)
+		if (flagMap.get(coord) == Box.FLAGED) { //если ячейка с флажком
 			flagMap.set(coord, Box.OPENED); //открываем ее
 		}
 	}
@@ -67,7 +81,10 @@ class Flag {
 				count++; //увеличиваем количество на единицу
 			}
 		}
-		return count;
+		return count; //возвращаем количество флагов
 	}
+	
+	
+
 
 }
