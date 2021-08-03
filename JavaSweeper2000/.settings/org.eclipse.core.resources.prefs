@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/JavaSweeper.java=UTF-8
+encoding//src/sweeper/Bomb.java=UTF-8
+encoding//src/sweeper/Box.java=UTF-8
+encoding//src/sweeper/Coord.java=UTF-8
+encoding//src/sweeper/Flag.java=UTF-8
+encoding//src/sweeper/Game.java=UTF-8
+encoding//src/sweeper/Matrix.java=UTF-8
+encoding//src/sweeper/Ranges.java=UTF-8
